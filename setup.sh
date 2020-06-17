@@ -18,13 +18,29 @@ apt-get install -y --no-install-recommends software-properties-common \
 # crosstool-ng:
 # https://github.com/crosstool-ng/crosstool-ng/blob/master/testing/docker/ubuntu18.04/Dockerfile
 
-apt-get install -y --no-install-recommends gcc g++ gperf bison flex texinfo \
-	help2man make libncurses5-dev python3-dev autoconf automake libtool \
-	libtool-bin gawk wget bzip2 xz-utils unzip patch libstdc++6 diffstat \
-	gcc-multilib build-essential chrpath socat cpio python python3 \
-	python3-pip python3-pexpect debianutils iputils-ping
+apt-get install -y --no-install-recommends python3-pip libusb-1.0 wget gcc python3-dev xz-utils file
 
 # Grab a new git
 add-apt-repository ppa:git-core/ppa -y
 apt-get update
 apt-get install git -y
+
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.11.3/zephyr-sdk-x86_64-hosttools-standalone-0.9.sh
+chmod a+x ./zephyr-sdk-x86_64-hosttools-standalone-0.9.sh
+./zephyr-sdk-x86_64-hosttools-standalone-0.9.sh -d /opt/zephyr-sdk -y
+rm zephyr-sdk-x86_64-hosttools-standalone-0.9.sh
+
+wget https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements-base.txt
+pip3 install setuptools
+pip3 install -r requirements-base.txt
+rm requirements-base.txt
+
+wget https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements-build-test.txt
+pip3 install -r requirements-build-test.txt
+rm requirements-build-test.txt
+
+wget https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements-run-test.txt
+pip3 install -r requirements-run-test.txt
+rm requirements-run-test.txt
+
+ln -s /opt/zephyr-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/openocd /usr/local/bin/
