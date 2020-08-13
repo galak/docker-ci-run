@@ -10,7 +10,7 @@ on: [pull_request]
 
 env:
   DOCKER_USER: zephyrprojectrtos
-  DOCKER_REPO: sdk-build
+  DOCKER_REPO: ci-run
 
 jobs:
 
